@@ -1,0 +1,4 @@
+__pycache__/
+.pytest_cache/
+allure_report_chrome/
+allure_report_firefox/
