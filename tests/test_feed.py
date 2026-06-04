@@ -1,7 +1,6 @@
 import allure
 
 from pages.feed_page import FeedPage
-from pages.login_page import LoginPage
 from pages.main_page import MainPage
 
 
@@ -14,7 +13,7 @@ class TestFeed:
         feed_page.open_feed_page()
         total_before = feed_page.total_counter()
 
-        self.create_order(driver, user)
+        MainPage(driver).create_order_for_user(user)
         feed_page.open_feed_page()
         feed_page.wait_total_counter_greater_than(total_before)
 
@@ -26,7 +25,7 @@ class TestFeed:
         feed_page.open_feed_page()
         today_before = feed_page.today_counter()
 
-        self.create_order(driver, user)
+        MainPage(driver).create_order_for_user(user)
         feed_page.open_feed_page()
         feed_page.wait_today_counter_greater_than(today_before)
 
@@ -38,20 +37,8 @@ class TestFeed:
         feed_page.open_feed_page()
         first_order_before = feed_page.first_order_number()
 
-        self.create_order(driver, user)
+        MainPage(driver).create_order_for_user(user)
         feed_page.open_feed_page()
         feed_page.wait_first_order_number_changed(first_order_before)
         order_number = feed_page.first_order_number()
-        feed_page.wait_order_in_work(order_number)
-
-    @staticmethod
-    def create_order(driver, user):
-        login_page = LoginPage(driver)
-        main_page = MainPage(driver)
-
-        login_page.open_login_page()
-        login_page.login(user["email"], user["password"])
-        main_page.is_visible(main_page.MAIN_HEADING)
-        main_page.add_bun_to_constructor()
-        main_page.add_filling_to_constructor()
-        return main_page.create_order()
+        assert feed_page.order_is_in_work(order_number)

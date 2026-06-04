@@ -1,19 +1,16 @@
-from selenium.webdriver.common.by import By
-
 import urls
+from locators.login_page_locators import LoginPageLocators
 from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    EMAIL_INPUT = (By.XPATH, "//form//input[@type='text']")
-    PASSWORD_INPUT = (By.XPATH, "//form//input[@type='password']")
-    LOGIN_BUTTON = (By.XPATH, "//form//button[text()='Войти']")
+    locators = LoginPageLocators
 
     def open_login_page(self):
         self.open(urls.LOGIN_PAGE)
-        self.is_visible(self.LOGIN_BUTTON)
+        self.is_visible(self.locators.LOGIN_BUTTON)
 
     def login(self, email, password):
-        self.type_text(self.EMAIL_INPUT, email)
-        self.type_text(self.PASSWORD_INPUT, password)
-        self.click(self.LOGIN_BUTTON)
+        self.type_text(self.locators.EMAIL_INPUT, email)
+        self.type_text(self.locators.PASSWORD_INPUT, password)
+        self.click(self.locators.LOGIN_BUTTON)

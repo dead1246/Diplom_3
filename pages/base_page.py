@@ -30,6 +30,9 @@ class BasePage:
     def is_visible(self, locator):
         return self.wait.until(ec.visibility_of_element_located(locator)).is_displayed()
 
+    def is_absent(self, locator):
+        return not self.driver.find_elements(*locator)
+
     def wait_url_contains(self, url_part):
         self.wait.until(ec.url_contains(url_part))
 
